@@ -1,5 +1,5 @@
 import tkinter as tk
-# type the following in PowerShell = "pip install ttkbootstrap" "pip install customtkinter"
+# type the following in PowerShell = "pip install ttkbootstrap" , "pip install customtkinter", "pip install pillow"
 import ttkbootstrap as ttk
 import customtkinter as ctk
 from PIL import ImageTk, Image
