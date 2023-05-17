@@ -4,6 +4,10 @@ import ttkbootstrap as ttk
 import customtkinter as ctk
 from PIL import ImageTk, Image
 
+def creditPage ():
+    window.destroy()
+    import creditPage
+
 # Window Changes
 window = ttk.Window(themename="superhero")
 window.title('Conversatile')
@@ -19,7 +23,7 @@ label = ttk.Label(window, text = 'logo', image = logo_tk)
 menu_frame = ttk.Frame(window)
 button1 = ttk.Button(menu_frame, text = 'PLAY!', width=25)
 button2 = ttk.Button(menu_frame, text = 'PROFILE')
-button3 = ttk.Button(menu_frame, text = 'CREDITS')
+button3 = ttk.Button(menu_frame, text = 'CREDITS', command=creditPage)
 
 #Small buttons\
 mnMenu_frame = ttk.Frame(window)
