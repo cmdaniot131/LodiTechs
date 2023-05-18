@@ -2,6 +2,10 @@ import tkinter as tk
 from tkinter import ttk
 from PIL import ImageTk, Image
 
+def playMenu():
+    window.destroy()
+    import playMenu
+
 def creditPage():
     window.destroy()
     import creditPage
@@ -19,7 +23,7 @@ label = ttk.Label(window, text='logo', image=logo_tk)
 
 # Main Menu Frame
 menu_frame = ttk.Frame(window)
-button1 = ttk.Button(menu_frame, text='PLAY!', width=20, command=lambda: print('Play'))
+button1 = ttk.Button(menu_frame, text='PLAY!', width=20, command=playMenu)
 button2 = ttk.Button(menu_frame, text='PROFILE', width=20, command=lambda: print('Profile'))
 button3 = ttk.Button(menu_frame, text='CREDITS', width=20, command=creditPage)
 
