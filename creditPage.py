@@ -2,6 +2,10 @@ import tkinter as tk
 from tkinter import ttk
 from PIL import ImageTk, Image
 
+def mainMenu():
+    window.destroy()
+    import conversatile
+
 window = tk.Tk()
 window.title('Conversatile')
 window.geometry('750x1334')
@@ -28,6 +32,7 @@ name1 = ttk.Label(name_frame, text='Jwaine Bravo', font='Feather 15')
 name2 = ttk.Label(name_frame, text='Chrysler Daniot', font='Feather 15')
 name3 = ttk.Label(name_frame, text='Joaquin Rizal', font='Feather 15')
 
+button1 = ttk.Button(window, text='Back', width=20, command=mainMenu)
 
 # Layout
 title.pack(pady=20)
@@ -43,5 +48,7 @@ name1.pack(side='left', padx=15)
 name2.pack(side='left', padx=15)
 name3.pack(side='left', padx=15)
 name_frame.pack(pady=10)
+
+button1.pack(pady=20)
 
 window.mainloop()
