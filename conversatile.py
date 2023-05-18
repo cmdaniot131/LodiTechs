@@ -1,47 +1,44 @@
 import tkinter as tk
-# type the following in PowerShell = "pip install ttkbootstrap" , "pip install customtkinter", "pip install pillow"
-import ttkbootstrap as ttk
-import customtkinter as ctk
+from tkinter import ttk
 from PIL import ImageTk, Image
 
-def creditPage ():
+def creditPage():
     window.destroy()
     import creditPage
 
 # Window Changes
-window = ttk.Window(themename="superhero")
+window = tk.Tk()
 window.title('Conversatile')
 window.geometry('750x1334')
 
-
 # Logo Frame
-logo =  Image.open('Conversatile_Logo.png')
-logo_tk = ImageTk.PhotoImage(logo)
-label = ttk.Label(window, text = 'logo', image = logo_tk)
+logo = Image.open('Conversatile\Conversatile_Logo.png')
+resized_logo = logo.resize((300, 300))
+logo_tk = ImageTk.PhotoImage(resized_logo)
+label = ttk.Label(window, text='logo', image=logo_tk)
 
 # Main Menu Frame
 menu_frame = ttk.Frame(window)
-button1 = ttk.Button(menu_frame, text = 'PLAY!', width=25)
-button2 = ttk.Button(menu_frame, text = 'PROFILE')
-button3 = ttk.Button(menu_frame, text = 'CREDITS', command=creditPage)
+button1 = ttk.Button(menu_frame, text='PLAY!', width=20, command=lambda: print('Play'))
+button2 = ttk.Button(menu_frame, text='PROFILE', width=20, command=lambda: print('Profile'))
+button3 = ttk.Button(menu_frame, text='CREDITS', width=20, command=creditPage)
 
-#Small buttons\
+# Small buttons
 mnMenu_frame = ttk.Frame(window)
-mnbutton2 = ttk.Button(mnMenu_frame, text = 'Settings')
-mnbutton3 = ttk.Button(mnMenu_frame, text = 'Achievements')
+mnbutton2 = ttk.Button(mnMenu_frame, text='Settings', command=lambda: print('Settings'))
+mnbutton3 = ttk.Button(mnMenu_frame, text='Achievements', command=lambda: print('Achievements'))
 
+# Layout
+label.pack(pady='30')
 
-# layout
-label.pack()
+menu_frame.pack(pady='50')
+button1.pack(fill='both', expand=True, pady='5', ipady='15', ipadx='20')
+button2.pack(fill='both', expand=True, pady='5', ipady='15', ipadx='20')
+button3.pack(fill='both', expand=True, pady='5', ipady='15', ipadx='20')
 
-button1.pack(side = 'top', fill = "both", expand = 'true', pady = '5')
-button2.pack(side = 'top', fill = "both", expand = 'true', pady = '5')
-button3.pack(side = 'top', fill = "both", expand = 'true', pady = '5')
-menu_frame.pack(pady = '50')
-
-mnbutton2.pack(side = 'left', expand = 'true', padx = '25' )
-mnbutton3.pack(side = 'left', expand = 'true', padx = '25' )
 mnMenu_frame.pack()
+mnbutton2.pack(side='left', padx='25', ipady='15', ipadx='10')
+mnbutton3.pack(side='left', padx='25', ipady='15', ipadx='10')
 
 # Run
 window.mainloop()
