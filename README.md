@@ -1,3 +1,3 @@
 # LodiTechs
 python files dump
-hi mga tite
+hi mga Lods
