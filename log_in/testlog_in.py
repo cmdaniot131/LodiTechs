@@ -53,9 +53,9 @@ Check_button=Checkbutton(master=frame,
                          text="show password", 
                          font=("Century Gothic", 11), 
                          fg='#00FF00', 
-                         bg='black',
-                         activeforeground='black',
-                         activebackground='black',
+                         bg='#21201E',
+                         activeforeground='#21201E',
+                         activebackground='#21201E',
                          command=show_password
                         )
 Check_button.place(x=65, y=255)
