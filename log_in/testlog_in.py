@@ -52,7 +52,7 @@ def show_password():
 Check_button=Checkbutton(master=frame, 
                          text="show password", 
                          font=("Century Gothic", 11), 
-                         fg='#00FF00', 
+                         fg='white', 
                          bg='#21201E',
                          activeforeground='#21201E',
                          activebackground='#21201E',
