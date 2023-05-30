@@ -5,7 +5,7 @@ from PIL import ImageTk, Image
 
 
 # Window 
-window = ttk.Window(themename= 'superhero')
+window = ttk.Window(themename= 'vapor')
 window.title('Conversatile')
 window.geometry('750x1334')
 
