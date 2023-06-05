@@ -1,9 +1,6 @@
 from tkinter import *
 import tkinter
-import tkinter as tk
-import ttkbootstrap as ttk
 import customtkinter
-import customtkinter as ctk
 from PIL import ImageTk, Image
 
 customtkinter.set_appearance_mode("Dark") #can set light or dark
