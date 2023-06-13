@@ -6,6 +6,10 @@ from PIL import ImageTk, Image
 ctk.set_appearance_mode("Dark")
 ctk.set_default_color_theme("theme/conversatile.json")
 
+# Window Changes
+window=ctk.CTk() #creating custom tkinter window
+window.geometry("470x750'")
+window.title("Conversatile")
 
 def to_credit():
     creditPage_frame.pack(fill='both', expand=True)
@@ -24,10 +28,7 @@ def to_leaderboard():
     window.destroy()
     import Leaderboard    
 
-# Window Changes
-window=ctk.CTk() #creating custom tkinter window
-window.geometry("470x750'")
-window.title("Conversatile")
+
 
 # Frame Declaration
 mainMenu_frame = ctk.CTkFrame(window)
@@ -37,25 +38,24 @@ playMenu_frame = ctk.CTkFrame(window)
 #--------------------------------------------------------------------------------
 
 # Main Menu 
+logoMM = ctk.CTkImage(dark_image=Image.open('img/Conversatile_Logo.png'),
+                      size=(300,300))
+MM_label = ctk.CTkLabel(mainMenu_frame, image= logoMM, text="")
 
-logoMM = Image.open('img/school.png')
-resized_logoMM = logoMM.resize((300, 300))
-logoMM_tk = ImageTk.PhotoImage(resized_logoMM)
-labelMM = ttk.Label(mainMenu_frame, image=logoMM_tk)
 
-menu_frame = ctk.CTkFrame(mainMenu_frame)
-button1 = ctk.CTkButton(menu_frame, text='PLAY!', width=20, command = to_Play)
-button3 = ctk.CTkButton(menu_frame, text='CREDITS', width=20, command = to_credit )
-button4 = ctk.CTkButton(menu_frame, text='LEADERBOARD', width=20, command =  to_leaderboard)
+button1 = ctk.CTkButton(mainMenu_frame, text='PLAY!', width=20, command = to_Play)
+button3 = ctk.CTkButton(mainMenu_frame, text='CREDITS', width=20, command = to_credit )
+button4 = ctk.CTkButton(mainMenu_frame, text='LEADERBOARD', width=20, command =  to_leaderboard)
 
 # Layout Main Menu
-labelMM.pack(pady='30')
+MM_label.pack(pady='30')
 
-menu_frame.pack(pady='50')
-button1.pack(fill='both', expand=True, pady='5', ipady='15', ipadx='20')
-button3.pack(fill='both', expand=True, pady='5', ipady='15', ipadx='20')
-button4.pack(fill='both', expand=True, pady='5', ipady='15', ipadx='20')
 
+button1.pack(fill='x', padx='150')
+button3.pack(fill='x', padx='150')
+button4.pack(fill='x', padx='150')
+
+mainMenu_frame.pack(fill='both', expand=True,)
 
 #--------------------------------------------------------------------------------
 
@@ -107,7 +107,7 @@ name_frame.pack(pady=10)
 button1.pack(pady=20)
 
 
-mainMenu_frame.pack(fill='both', expand=True,)
+
 
 #--------------------------------------------------------------------------------
 
