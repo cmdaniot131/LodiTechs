@@ -36,13 +36,16 @@ def to_Main():
     creditPage_frame.pack_forget()
     lbd_frame.pack_forget()
     playMenu_frame.pack_forget()
+
     
 
 def to_Play():
     playMenu_frame.pack(fill='both', expand=True)
     mainMenu_frame.pack_forget()
  
-
+def to_exit():
+    window.destroy()
+    window.quit()
 
 
 # Frame Declaration
@@ -53,6 +56,7 @@ creditPage_frame = ctk.CTkFrame(window)
 lbd_frame = ctk.CTkFrame(window)
 playMenu_frame = ctk.CTkFrame(window)
 SchoolScenario1_frame = ctk.CTkFrame(window)
+OfficeScenario1_frame = ctk.CTkFrame(window)
 
 #--------------------------------------------------------------------------------------------------
 
@@ -61,13 +65,16 @@ SchoolScenario1_frame = ctk.CTkFrame(window)
 # ------------- Header ------------- #
 
 Ltitleframe = ctk.CTkFrame(LoginPage_Frame)
-
-Lheader_label = ctk.CTkLabel(Ltitleframe, text='Login Page', font=("",30))
+Limg = ctk.CTkImage(dark_image=Image.open('img/Conversatile_Logo.png'),
+                      size=(250,250))
+Limg_label = ctk.CTkLabel(LoginPage_Frame, image= Limg, text= "" )
+Lheader_label = ctk.CTkLabel(Ltitleframe, text='Login', font=("",30))
 
 # Header layout
 Lheader_label.pack()
+Limg_label.pack()
 
-Ltitleframe.pack(fill='both', pady='100')
+Ltitleframe.pack(fill='both', pady='30')
 
 # ------------- End Header ------------- #
 
@@ -142,18 +149,24 @@ Lmainframe.pack(fill='both', expand=True)
 
 LoginPage_Frame.pack(fill='both', expand=True)
 
+
 #--------------------------------------------------------------------------------------------------
 
 # Register Page
 # ------------- Header ------------- #
 
 Rheaderframe = ctk.CTkFrame(RegisterPage_Frame)
-Rheader_label = ctk.CTkLabel(Rheaderframe, text='Register Page', font=("",30))
+Rimg = ctk.CTkImage(dark_image=Image.open('img/Conversatile_Logo.png'),
+                      size=(250,250))
+Rimg_label = ctk.CTkLabel(RegisterPage_Frame, image= Rimg, text= "" )
+Rheader_label = ctk.CTkLabel(Rheaderframe, text='Register', font=("",30))
 
 # Header layout
+Rimg_label.pack()
 Rheader_label.pack()
 
-Rheaderframe.pack(fill='both', pady='100')
+
+Rheaderframe.pack(fill='both', pady='30')
 
 
 # ------------- End Header ------------- #
@@ -207,7 +220,7 @@ register_button = ctk.CTkButton(register_frame,
                          text='Register', command= register)
 
 relogin_button = ctk.CTkButton(register_frame, 
-                         text='Return to Login Page', 
+                         text='Return to Login', 
                          command= returnlg)
 
 Rmainframe.pack(fill='both', expand=1)
@@ -273,10 +286,9 @@ button1.pack(ipadx='20', pady=50)
 
 # Leaderbords
 def to_leaderboard():
-    lbd_frame.pack(fill='both', expand=True)
-    mainMenu_frame.pack_forget() 
 
     # Leaderboard label
+    global lbd_label
     lbd_label = ctk.CTkLabel(lbd_frame, text="LEADERBOARD", font=("", 30))
 
     # Leaderboard access database
@@ -286,8 +298,12 @@ def to_leaderboard():
                         "ORDER BY scenario1_tbl.total_score DESC "
                         "LIMIT 10")
 
+    global leaderboard_entries
     leaderboard_entries = conversatile.fetchall()
 
+    display_leaderbord()
+
+def display_leaderbord():
     # Leaderboard variables
     top10_entries = []
     for entry in leaderboard_entries:
@@ -311,9 +327,13 @@ def to_leaderboard():
     lbd_label.pack(pady='30')
 
     for label in lbd_entry_labels:
-        label.pack(fill='x', padx='190', pady='15')
+        label.pack(fill='x', padx='100', pady='15')
 
     b2mm_button.pack(fill='x', padx='100', pady='25')
+
+    lbd_frame.pack(fill='both', expand=True)
+    mainMenu_frame.pack_forget()
+
 
 #--------------------------------------------------------------------------------
 
@@ -326,6 +346,7 @@ MM_label = ctk.CTkLabel(mainMenu_frame, image= logoMM, text="")
 button1 = ctk.CTkButton(mainMenu_frame, text='PLAY!', width=20, command = to_Play)
 button3 = ctk.CTkButton(mainMenu_frame, text='CREDITS', width=20, command = to_credit )
 button4 = ctk.CTkButton(mainMenu_frame, text='LEADERBOARD', width=20, command =  to_leaderboard)
+button5 = ctk.CTkButton(mainMenu_frame, text='Exit', width=20, command= to_exit)
 
 # Layout Main Menu
 MM_label.pack(pady='30')
@@ -334,7 +355,7 @@ MM_label.pack(pady='30')
 button1.pack(fill='x', padx='150', pady='15')
 button3.pack(fill='x', padx='150', pady='15')
 button4.pack(fill='x', padx='150', pady='15')
-
+button5.pack(fill='x', padx='150', pady='15')
 
 #--------------------------------------------------------------------------------
 
@@ -344,10 +365,14 @@ def to_schoolscenario1():
     SchoolScenario1_frame.pack(fill='both', expand=True)
     playMenu_frame.pack_forget()
 
+def to_officescenario1():
+    OfficeScenario1_frame.pack(fill='both', expand=True)
+    playMenu_frame.pack_forget()
+
 setting_frame = ctk.CTkFrame(playMenu_frame)
 title1 = ctk.CTkLabel(setting_frame, text='Choose Setting', font=("",30))
 school_btn = ctk.CTkButton(setting_frame, text='School', width=24, command=to_schoolscenario1)
-office_btn = ctk.CTkButton(setting_frame, text='Office', width=24, command=lambda: print('Office Button') )
+office_btn = ctk.CTkButton(setting_frame, text='Office', width=24, command=lambda: print('Office Button'))
 family_btn = ctk.CTkButton(setting_frame, text='Family', width=24, command=lambda: print('Family Button') )
 
 button1 = ctk.CTkButton(setting_frame, text='Back', width=24, command= to_Main)
@@ -384,6 +409,9 @@ failedframe = ctk.CTkFrame(SchoolScenario1_frame)
 def back_to_scenario_menu():
     playMenu_frame.pack(fill='both', expand=True)
     SchoolScenario1_frame.pack_forget()
+    passedframe.pack_forget()
+    failedframe.pack_forget()
+    
 
 #zeroframe-----------------------------------------------------------------------------------------------------------------------
 
@@ -1126,7 +1154,7 @@ Option3_button9 = ctk.CTkButton(optionbutton_frame9, text="Approach without sayi
 Option4_button9 = ctk.CTkButton(optionbutton_frame9, text="Go over and just look at the situation.", width= 45, command= act9_badoption)
 
 
-#Layout for fifthframe
+#Layout for ninthframe
 
     #Image visual layout
 visual_label9.pack()
@@ -1458,6 +1486,1114 @@ Option2_button10.pack(padx='70',pady='15', fill='x',expand= True)
 Option3_button10.pack(padx='70',pady='15', fill='x',expand= True)
 Option4_button10.pack(padx='70',pady='15', fill='x',expand= True)
 optionbutton_frame10.pack(fill= 'x', expand= True)
+
+
+
+
+
+
+
+
+
+
+#--------------------------------------------------------------------------------
+
+#Office Scenario 1
+zeroframeO = ctk.CTkFrame(OfficeScenario1_frame)
+firstframeO = ctk.CTkFrame(OfficeScenario1_frame)
+secondframeO = ctk.CTkFrame(OfficeScenario1_frame)
+thirdframeO = ctk.CTkFrame(OfficeScenario1_frame)
+fourthframeO = ctk.CTkFrame(OfficeScenario1_frame)
+fifthframeO = ctk.CTkFrame(OfficeScenario1_frame)
+sixthframeO = ctk.CTkFrame(OfficeScenario1_frame)
+seventhframeO = ctk.CTkFrame(OfficeScenario1_frame)
+eightframeO = ctk.CTkFrame(OfficeScenario1_frame)
+ninthframeO = ctk.CTkFrame(OfficeScenario1_frame)
+tenthframeO = ctk.CTkFrame(OfficeScenario1_frame)
+
+passedframeO = ctk.CTkFrame(OfficeScenario1_frame)
+failedframeO = ctk.CTkFrame(OfficeScenario1_frame)
+
+def Oback_to_scenario_menu():
+    playMenu_frame.pack(fill='both', expand=True)
+    OfficeScenario1_frame.pack_forget()
+    passedframeO.pack_forget()
+    failedframeO.pack_forget()
+    
+
+#zeroframeO-----------------------------------------------------------------------------------------------------------------------
+
+#Image visual frame
+Ovisual_frame0 = ctk.CTkFrame(zeroframeO)
+
+    #Image visual
+Ovisual0 = ctk.CTkImage(dark_image=Image.open('img/Situation 1.jpg'),
+                      size=(450,300))
+Ovisual_label0 = ctk.CTkLabel(Ovisual_frame0, image= Ovisual0, text="")
+
+#Oproblem window frame
+Oproblem_frame0 = ctk.CTkFrame(zeroframeO)
+
+    #Oproblem window
+Oproblem_label0 = ctk.CTkLabel(Oproblem_frame0, anchor= "e", font= ('Arial',16), justify= "left",
+                          text= "It's your first day on the job and of course you'll need to be familiar with your office space. Your employer is in-charge showing you around the office, but it is up to you what to do with the information given to you." 
+                          )
+
+#Options buttons frame
+optionbuttonO_frame0 = ctk.CTkFrame(zeroframeO)
+
+#next function
+
+def change_to_firstframeO():
+    firstframeO.pack(fill="both", expand= True)
+    zeroframeO.pack_forget()
+
+#next button
+
+next_button = ctk.CTkButton(optionbuttonO_frame0, text="NEXT", command= change_to_firstframeO)
+
+#Layout for zeroframeO
+
+    #Image Ovisual layout
+Ovisual_label0.pack()
+Ovisual_frame0.pack(pady= '30')
+
+    #Oproblem window layout
+Oproblem_label0.pack(padx='10')
+Oproblem_frame0.pack(pady='10')
+
+    #Next Button layout
+next_button.pack(padx='70', pady='100', fill='x',expand= True)
+optionbuttonO_frame0.pack(fill='both', expand= True)
+
+#first frame
+zeroframeO.pack(fill="both", expand= True)
+
+#firstframeO-----------------------------------------------------------------------------------------------------------------------
+
+#Image Ovisual frame
+Ovisual_frame = ctk.CTkFrame(firstframeO)
+
+    #Image Ovisual
+Ovisual = ctk.CTkImage(dark_image=Image.open('img/S1_Act1.jpg'),
+                      size=(450,300))
+Ovisual_label = ctk.CTkLabel(Ovisual_frame, image= Ovisual, text="")
+
+#Oproblem window frame
+Oproblem_frame = ctk.CTkFrame(firstframeO,)
+
+    #Oproblem window
+Oproblem_label = ctk.CTkLabel(Oproblem_frame, anchor= "e", font= ('Arial',16), justify= "left",
+                          text= "A fellow new hire approaches you and is asking for directions."
+                          )
+
+#Options buttons frame
+optionbuttonO_frame = ctk.CTkFrame(firstframeO)
+
+    #Options buttons label
+Owhat_label = ctk.CTkLabel(optionbuttonO_frame, text="What should you do?", font= ('Arial',15))
+
+
+#option functions
+
+
+Ofinalscore = 0
+
+def Oact1_bestoption():
+    global Ofinalscore
+    Ofinalscore += 5
+    secondframeO.pack(fill='both', expand= True)
+    firstframeO.pack_forget()
+
+    
+
+def Oact1_betteroption():
+    global Ofinalscore
+    Ofinalscore += 4
+    secondframeO.pack(fill='both', expand= True)
+    firstframeO.pack_forget()    
+
+def Oact1_goodoption():
+    global Ofinalscore
+    Ofinalscore += 3
+    secondframeO.pack(fill='both', expand= True)
+    firstframeO.pack_forget()
+
+def Oact1_badoption():
+    global Ofinalscore
+    Ofinalscore += 1
+    secondframeO.pack(fill='both', expand= True)
+    firstframeO.pack_forget()
+
+
+
+    #Option buttons 
+Option1_button = ctk.CTkButton(optionbuttonO_frame, text="Approach them but don't say anything until they do.", width= 45, command= Oact1_goodoption)
+Option2_button = ctk.CTkButton(optionbuttonO_frame, text="Join in a random conversation and take over.", width= 45, command= Oact1_badoption)
+Option3_button = ctk.CTkButton(optionbuttonO_frame, text="Observe, Approach, and Introduce yourself.", width= 45, command= Oact1_bestoption)
+Option4_button = ctk.CTkButton(optionbuttonO_frame, text="Gamble your odds and let them come to you first.", width= 45, command= Oact1_betteroption)
+
+
+#Layout for firstframeO
+
+    #Image Ovisual layout
+Ovisual_label.pack()
+Ovisual_frame.pack(pady= '30')
+
+    #Oproblem window layout
+Oproblem_label.pack(padx='10')
+Oproblem_frame.pack(pady='10')
+
+    #Options label layout
+Owhat_label.pack(pady='10')
+    #Option Button layout
+Option1_button.pack(padx='70',pady='15', fill='x',expand= True)
+Option2_button.pack(padx='70',pady='15', fill='x',expand= True)
+Option3_button.pack(padx='70',pady='15', fill='x',expand= True)
+Option4_button.pack(padx='70',pady='15', fill='x',expand= True)
+optionbuttonO_frame.pack(fill= 'x', expand= True)
+
+
+
+#secondframeO----------------------------------------------------------------------------------------------------------------------
+
+#Image Ovisual frame
+Ovisual_frame2 = ctk.CTkFrame(secondframeO)
+
+    #Image Ovisual
+Ovisual2 = ctk.CTkImage(dark_image=Image.open('img/S1_act2.jpg'),
+                      size=(450,300))
+Ovisual_label2 = ctk.CTkLabel(Ovisual_frame2, image= visual2, text="")
+
+#Oproblem window frame
+Oproblem_frame2 = ctk.CTkFrame(secondframeO)
+
+    #Oproblem window
+Oproblem_label2 = ctk.CTkLabel(Oproblem_frame2, anchor= "e", font= ('Arial',18),
+                          text= "Looks like they're friendly enough to talk to…"
+                          )
+
+#Options buttons frame
+optionbuttonO_frame2 = ctk.CTkFrame(secondframeO)
+
+    #Options buttons label
+Owhat_label2 = ctk.CTkLabel(optionbuttonO_frame2, text="How should you talk to them?", font= ('Arial',20))
+
+
+#option button functions
+
+def Oact2_bestoption():
+    global Ofinalscore
+    Ofinalscore += 5
+    thirdframeO.pack(fill='both', expand= True)
+    secondframeO.pack_forget()
+
+def Oact2_betteroption():
+    global Ofinalscore
+    Ofinalscore += 4
+    thirdframeO.pack(fill='both', expand= True)
+    secondframeO.pack_forget()    
+
+def Oact2_goodoption():
+    global Ofinalscore
+    Ofinalscore += 3
+    thirdframeO.pack(fill='both', expand= True)
+    secondframeO.pack_forget()
+def Oact2_badoption():
+    global Ofinalscore
+    Ofinalscore += 1
+    thirdframeO.pack(fill='both', expand= True)
+    secondframeO.pack_forget()
+
+    #Option buttons 
+Option1_button2 = ctk.CTkButton(optionbuttonO_frame2, text="Hi! I see that you like (Thing observed), I also like \n(Common Interest). I'm (username) by the way, \nnice to meet you!", width= 45, command= Oact2_betteroption)
+Option2_button2 = ctk.CTkButton(optionbuttonO_frame2, text="I remember when I had (recall experience \nabout common interest), it was cool. \nOh, I'm (username), how about you?", width= 45, command= Oact2_goodoption)
+Option3_button2 = ctk.CTkButton(optionbuttonO_frame2, text="Oh I really like (common interest), I see you have great taste. \nI'm (username). How did you get started with \n(common interest)?", width= 45, command= Oact2_bestoption)
+Option4_button2 = ctk.CTkButton(optionbuttonO_frame2, text="I don't really like it because of... Why do you even like it? \nI'm (username) by the way.", width= 45, command= Oact2_badoption)
+
+
+#Layout for secondframeO
+
+    #Image Ovisual layout
+Ovisual_label2.pack()
+Ovisual_frame2.pack(pady= '50')
+
+#Oproblem window layout
+Oproblem_label2.pack(padx='10')
+Oproblem_frame2.pack(pady='10')
+
+    #Options label layout
+Owhat_label2.pack(pady='10')
+    #Option Button layout
+Option1_button2.pack(padx='70',pady='15', fill='x',expand= True)
+Option2_button2.pack(padx='70',pady='15', fill='x',expand= True)
+Option3_button2.pack(padx='70',pady='15', fill='x',expand= True)
+Option4_button2.pack(padx='70',pady='15', fill='x',expand= True)
+optionbuttonO_frame2.pack(fill= 'x', expand= True)
+
+
+#thirdframeO------------------------------------------------------------------------------------------------------------------
+
+#Image Ovisual frame
+Ovisual_frame3 = ctk.CTkFrame(thirdframeO)
+
+    #Image Ovisual
+Ovisual3 = ctk.CTkImage(dark_image=Image.open('img/S1_act3.jpg'),
+                      size=(450,300))
+Ovisual_label3 = ctk.CTkLabel(Ovisual_frame3, image= Ovisual3, text="")
+
+#Oproblem window frame
+Oproblem_frame3 = ctk.CTkFrame(thirdframeO)
+
+    #Oproblem window
+Oproblem_label3 = ctk.CTkLabel(Oproblem_frame3, font= ('Arial',18),
+                          text= "Looks like they are uncomfortable or straight up ignored you…"
+                          )
+
+#Options buttons frame
+optionbuttonO_frame3 = ctk.CTkFrame(thirdframeO)
+
+    #Options buttons label
+Owhat_label3 = ctk.CTkLabel(optionbuttonO_frame3, text="What should you do?", font= ('Arial',20))
+
+#option button functions
+
+def Oact3_bestoption():
+    global Ofinalscore
+    Ofinalscore += 5
+    fourthframeO.pack(fill='both', expand= True)
+    thirdframeO.pack_forget()
+
+def Oact3_betteroption():
+    global Ofinalscore
+    Ofinalscore += 4
+    fourthframeO.pack(fill='both', expand= True)
+    thirdframeO.pack_forget()   
+
+def Oact3_goodoption():
+    global Ofinalscore
+    Ofinalscore += 3
+    fourthframeO.pack(fill='both', expand= True)
+    thirdframeO.pack_forget()
+
+def Oact3_badoption():
+    global Ofinalscore
+    Ofinalscore += 1
+    fourthframeO.pack(fill='both', expand= True)
+    thirdframeO.pack_forget()
+
+    #Option buttons 
+Option1_button3 = ctk.CTkButton(optionbuttonO_frame3, text="Sorry for bothering you, I will go now.", width= 45, command= Oact3_bestoption)
+Option2_button3 = ctk.CTkButton(optionbuttonO_frame3, text="Keep talking and they'll eventually warm up to you.", width= 45, command= Oact3_betteroption)
+Option3_button3 = ctk.CTkButton(optionbuttonO_frame3, text="Cuss them out for not being interested in you.", width= 45, command= Oact3_badoption)
+Option4_button3 = ctk.CTkButton(optionbuttonO_frame3, text="Stay silent and just wait for them to excuse themselves.", width= 45, command= Oact3_goodoption)
+
+
+#Layout for thirdframeO
+
+    #Image Ovisual layout
+Ovisual_label3.pack()
+Ovisual_frame3.pack(pady= '50')
+
+#Oproblem window layout
+Oproblem_label3.pack(padx='10')
+Oproblem_frame3.pack(pady='10')
+
+    #Options label layout
+Owhat_label3.pack(pady='10')
+    #Option Button layout
+Option1_button3.pack(padx='70',pady='15', fill='x',expand= True)
+Option2_button3.pack(padx='70',pady='15', fill='x',expand= True)
+Option3_button3.pack(padx='70',pady='15', fill='x',expand= True)
+Option4_button3.pack(padx='70',pady='15', fill='x',expand= True)
+optionbuttonO_frame3.pack(fill= 'x', expand= True)
+
+
+
+#fourthframeO------------------------------------------------------------------------------------------------------------------
+
+#Image Ovisual frame
+Ovisual_frame4 = ctk.CTkFrame(fourthframeO)
+
+    #Image Ovisual
+Ovisual4 = ctk.CTkImage(dark_image=Image.open('img/S1_act4.jpg'),
+                      size=(450,300))
+Ovisual_label4 = ctk.CTkLabel(Ovisual_frame4, image= Ovisual4, text="")
+
+#Oproblem window frame
+Oproblem_frame4 = ctk.CTkFrame(fourthframeO)
+
+    #Oproblem window
+Oproblem_label4 = ctk.CTkLabel(Oproblem_frame4, anchor= "e", font= ('Arial',18),
+                          text= "It turns out, you didn't like them…"
+                          )
+
+#Options buttons frame
+optionbuttonO_frame4 = ctk.CTkFrame(fourthframeO)
+
+    #Options buttons label
+Owhat_label4 = ctk.CTkLabel(optionbuttonO_frame4, text="What should you do?", font= ('Arial',20))
+
+option3_var = (" 'Hey, don't mean to offend you \nbut I just don't like you, maybe we should stop talking.'")
+
+#option buttons function
+
+def Oact4_bestoption():
+    global Ofinalscore
+    Ofinalscore += 5
+    fifthframeO.pack(fill='both', expand= True)
+    fourthframeO.pack_forget()
+
+def Oact4_betteroption():
+    global Ofinalscore
+    Ofinalscore += 4
+    fifthframeO.pack(fill='both', expand= True)
+    fourthframeO.pack_forget()   
+
+def Oact4_goodoption():
+    global Ofinalscore
+    Ofinalscore += 3
+    fifthframeO.pack(fill='both', expand= True)
+    fourthframeO.pack_forget()
+
+def Oact4_badoption():
+    global Ofinalscore
+    Ofinalscore += 1
+    fifthframeO.pack(fill='both', expand= True)
+    fourthframeO.pack_forget()
+    
+
+    #Option buttons 
+Option1_button4 = ctk.CTkButton(optionbuttonO_frame4, text="Look at your phone then say \n'Sorry, something came up I have to go now.'", width= 45, command= Oact4_bestoption)
+Option2_button4 = ctk.CTkButton(optionbuttonO_frame4, text="Fake it till you make it.", width= 45, command= Oact4_betteroption)
+Option3_button4 = ctk.CTkButton(optionbuttonO_frame4, text="Be straightforward and say" + f"{option3_var}", width= 45, command= Oact4_goodoption)
+Option4_button4 = ctk.CTkButton(optionbuttonO_frame4, text="Just leave.", width= 45, command= Oact4_badoption)
+
+
+#Layout for fourthframe
+
+    #Image Ovisual layout
+Ovisual_label4.pack()
+Ovisual_frame4.pack(pady= '50')
+
+#Oproblem window layout
+Oproblem_label4.pack(padx='10')
+Oproblem_frame4.pack(pady='10')
+
+    #Options label layout
+Owhat_label4.pack(pady='10')
+    #Option Button layout
+Option1_button4.pack(padx='70',pady='15', fill='x',expand= True)
+Option2_button4.pack(padx='70',pady='15', fill='x',expand= True)
+Option3_button4.pack(padx='70',pady='15', fill='x',expand= True)
+Option4_button4.pack(padx='70',pady='15', fill='x',expand= True)
+optionbuttonO_frame4.pack(fill= 'x', expand= True)
+
+
+
+#fifthframeO-----------------------------------------------------------------------------------------------------------------
+
+#Image Ovisual frame
+Ovisual_frame5 = ctk.CTkFrame(fifthframeO)
+
+    #Image Ovisual
+Ovisual5 = ctk.CTkImage(dark_image=Image.open('img/S1_act5.jpg'),
+                      size=(450,300))
+Ovisual_label5 = ctk.CTkLabel(Ovisual_frame5, image= Ovisual5, text="")
+
+#Oproblem window frame
+Oproblem_frame5 = ctk.CTkFrame(fifthframeO)
+
+    #Oproblem window
+Oproblem_label5 = ctk.CTkLabel(Oproblem_frame5, anchor= "e", font= ('Arial',16),
+                          text= "They turned out to be friendly! Your next goal is to get their name \nand how to contOact them, easy right?"
+                          )
+
+#Options buttons frame
+optionbuttonO_frame5 = ctk.CTkFrame(fifthframeO)
+
+    #Options buttons label
+Owhat_label5 = ctk.CTkLabel(optionbuttonO_frame5, text="What should you say?", font= ('Arial',20))
+
+#option buttons function
+
+
+def Oact5_bestoption():
+    global Ofinalscore
+    Ofinalscore += 5
+    sixthframeO.pack(fill="both", expand= True)
+    fifthframeO.pack_forget()
+
+def Oact5_betteroption():
+    global Ofinalscore
+    Ofinalscore += 4
+    sixthframeO.pack(fill="both", expand= True)
+    fifthframeO.pack_forget()
+
+def Oact5_goodoption():
+    global Ofinalscore
+    Ofinalscore += 3
+    sixthframeO.pack(fill="both", expand= True)
+    fifthframeO.pack_forget()
+    
+
+def Oact5_badoption():
+    global Ofinalscore
+    Ofinalscore += 1
+    sixthframeO.pack(fill="both", expand= True)
+    fifthframeO.pack_forget()
+
+    #Option buttons 
+Option1_button5 = ctk.CTkButton(optionbuttonO_frame5, text="Oh hey, I didn't catch your name, also would you mind \nif we add each other on social media?", width= 45, command= Oact5_bestoption)
+Option2_button5 = ctk.CTkButton(optionbuttonO_frame5, text="Wait for them to offer adding you to socials\n and know their name on there.", width= 45, command= Oact5_badoption)
+Option3_button5 = ctk.CTkButton(optionbuttonO_frame5, text="Hey want to add each other on social media?", width= 45, command= Oact5_betteroption)
+Option4_button5 = ctk.CTkButton(optionbuttonO_frame5, text="Oh wait, let me guess what your name is!", width= 45, command= Oact5_goodoption)
+
+
+#Layout for sixthframeO
+
+    #Image Ovisual layout
+Ovisual_label5.pack()
+Ovisual_frame5.pack(pady= '50')
+
+#Oproblem window layout
+Oproblem_label5.pack(padx='10')
+Oproblem_frame5.pack(pady='10')
+
+    #Options label layout
+Owhat_label5.pack(pady='10')
+    #Option Button layout
+Option1_button5.pack(padx='70',pady='15', fill='x',expand= True)
+Option2_button5.pack(padx='70',pady='15', fill='x',expand= True)
+Option3_button5.pack(padx='70',pady='15', fill='x',expand= True)
+Option4_button5.pack(padx='70',pady='15', fill='x',expand= True)
+optionbuttonO_frame5.pack(fill= 'x', expand= True)
+
+#sixthframeO--------------------------------------------------------------------------------------------------------------------
+
+#Image Ovisual frame
+Ovisual_frame6 = ctk.CTkFrame(sixthframeO)
+
+    #Image Ovisual
+Ovisual6 = ctk.CTkImage(dark_image=Image.open('img/S1_act6.jpg'),
+                      size=(450,300))
+Ovisual_label6 = ctk.CTkLabel(Ovisual_frame6, image= Ovisual6, text="")
+
+#Oproblem window frame
+Oproblem_frame6 = ctk.CTkFrame(sixthframeO)
+
+    #Oproblem window
+Oproblem_label6 = ctk.CTkLabel(Oproblem_frame6, anchor= "e", font= ('Arial',16),
+                          text= "You and your new friend made quite \na connection about a common interest! "
+                          )
+
+#Options buttons frame
+optionbuttonO_frame6 = ctk.CTkFrame(sixthframeO)
+
+    #Options buttons label
+Owhat_label6 = ctk.CTkLabel(optionbuttonO_frame6, text="What should you do?", font= ('Arial',20))
+
+#option buttons function
+
+
+def Oact6_bestoption():
+    global Ofinalscore
+    Ofinalscore += 5
+    seventhframeO.pack(fill="both", expand= True)
+    sixthframeO.pack_forget()
+
+def Oact6_betteroption():
+    global Ofinalscore
+    Ofinalscore += 4
+    seventhframeO.pack(fill="both", expand= True)
+    sixthframeO.pack_forget()
+
+def Oact6_goodoption():
+    global Ofinalscore
+    Ofinalscore += 3
+    seventhframeO.pack(fill="both", expand= True)
+    sixthframeO.pack_forget()
+    
+
+def Oact6_badoption():
+    global Ofinalscore
+    Ofinalscore += 1
+    seventhframeO.pack(fill="both", expand= True)
+    sixthframeO.pack_forget()
+
+    #Option buttons 
+Option1_button6 = ctk.CTkButton(optionbuttonO_frame6, text="Stay with the same topic and just expand on it.", width= 45, command= Oact6_goodoption)
+Option2_button6 = ctk.CTkButton(optionbuttonO_frame6, text="End the conversation.", width= 45, command= Oact6_badoption)
+Option3_button6 = ctk.CTkButton(optionbuttonO_frame6, text="Think about another interest that you and \nthey could potentially talk about.", width= 45, command= Oact6_bestoption)
+Option4_button6 = ctk.CTkButton(optionbuttonO_frame6, text="Talk about the weather.", width= 45, command= Oact6_betteroption)
+
+
+#Layout for sixthframeO
+
+    #Image Ovisual layout
+Ovisual_label6.pack()
+Ovisual_frame6.pack(pady= '50')
+
+#Oproblem window layout
+Oproblem_label6.pack(padx='10')
+Oproblem_frame6.pack(pady='10')
+
+    #Options label layout
+Owhat_label6.pack(pady='10')
+    #Option Button layout
+Option1_button6.pack(padx='70',pady='15', fill='x',expand= True)
+Option2_button6.pack(padx='70',pady='15', fill='x',expand= True)
+Option3_button6.pack(padx='70',pady='15', fill='x',expand= True)
+Option4_button6.pack(padx='70',pady='15', fill='x',expand= True)
+optionbuttonO_frame6.pack(fill= 'x', expand= True)
+
+#seventhframeO--------------------------------------------------------------------------------------------------------------------
+
+#Image Ovisual frame
+Ovisual_frame7 = ctk.CTkFrame(seventhframeO)
+
+    #Image Ovisual
+Ovisual7 = ctk.CTkImage(dark_image=Image.open('img/S1_act7.jpg'),
+                      size=(450,300))
+Ovisual_label7 = ctk.CTkLabel(Ovisual_frame7, image= Ovisual7, text="")
+
+#Oproblem window frame
+Oproblem_frame7 = ctk.CTkFrame(seventhframeO)
+
+    #Oproblem window
+Oproblem_label7 = ctk.CTkLabel(Oproblem_frame7, anchor= "e", justify= "left", font= ('Arial',16),
+                          text= "Someone overheard your conversation, and a stranger \nsuddenly joins in the conversation and introduces \nthemselves. (They look friendly as well)"
+                          )
+
+#Options buttons frame
+optionbuttonO_frame7 = ctk.CTkFrame(seventhframeO)
+
+    #Options buttons label
+Owhat_label7 = ctk.CTkLabel(optionbuttonO_frame7, text="What should you say?", font= ('Arial',20))
+
+#option buttons function
+
+
+def Oact7_bestoption():
+    global Ofinalscore
+    Ofinalscore += 5
+    eightframeO.pack(fill="both", expand= True)
+    seventhframeO.pack_forget()
+
+def Oact7_betteroption():
+    global Ofinalscore
+    Ofinalscore += 4
+    eightframeO.pack(fill="both", expand= True)
+    seventhframeO.pack_forget()
+
+def Oact7_goodoption():
+    global Ofinalscore
+    Ofinalscore += 3
+    eightframeO.pack(fill="both", expand= True)
+    seventhframeO.pack_forget()
+    
+
+def Oact7_badoption():
+    global Ofinalscore
+    Ofinalscore += 1
+    eightframeO.pack(fill="both", expand= True)
+    seventhframeO.pack_forget()
+
+    #Option buttons 
+Option1_button7 = ctk.CTkButton(optionbuttonO_frame7, text="I'm (username), Nice to meet you! We're just talking \nabout our interests, do you like …?", width= 45, command= Oact7_bestoption)
+Option2_button7 = ctk.CTkButton(optionbuttonO_frame7, text="…", width= 45, command= Oact7_badoption)
+Option3_button7 = ctk.CTkButton(optionbuttonO_frame7, text="Uhm, excuse us please.", width= 45, command= Oact7_goodoption)
+Option4_button7 = ctk.CTkButton(optionbuttonO_frame7, text="Oh hey, have you heard about…", width= 45, command= Oact7_betteroption)
+
+
+#Layout for seventhframeO
+
+    #Image Ovisual layout
+Ovisual_label7.pack()
+Ovisual_frame7.pack(pady= '50')
+
+#Oproblem window layout
+Oproblem_label7.pack(padx='10')
+Oproblem_frame7.pack(pady='10')
+
+    #Options label layout
+Owhat_label7.pack(pady='10')
+    #Option Button layout
+Option1_button7.pack(padx='70',pady='15', fill='x',expand= True)
+Option2_button7.pack(padx='70',pady='15', fill='x',expand= True)
+Option3_button7.pack(padx='70',pady='15', fill='x',expand= True)
+Option4_button7.pack(padx='70',pady='15', fill='x',expand= True)
+optionbuttonO_frame7.pack(fill= 'x', expand= True)
+
+#eighthframe--------------------------------------------------------------------------------------------------------------------
+
+#Image Ovisual frame
+Ovisual_frame8 = ctk.CTkFrame(eightframeO)
+
+    #Image Ovisual
+Ovisual8 = ctk.CTkImage(dark_image=Image.open('img/S1_act8.jpg'),
+                      size=(450,300))
+Ovisual_label8 = ctk.CTkLabel(Ovisual_frame8, image= Ovisual8, text="")
+
+#Oproblem window frame
+Oproblem_frame8 = ctk.CTkFrame(eightframeO)
+
+    #Oproblem window
+Oproblem_label8 = ctk.CTkLabel(Oproblem_frame8, anchor= "e", font= ('Arial',16),
+                          text= " A person approaches you and makes a creepy joke."
+                          )
+
+#Options buttons frame
+optionbuttonO_frame8 = ctk.CTkFrame(eightframeO)
+
+    #Options buttons label
+Owhat_label8 = ctk.CTkLabel(optionbuttonO_frame8, text="What should you do?", font= ('Arial',20))
+
+#option buttons function
+
+
+def Oact8_bestoption():
+    global Ofinalscore
+    Ofinalscore += 5
+    ninthframeO.pack(fill="both", expand= True)
+    eightframeO.pack_forget()
+
+def Oact8_betteroption():
+    global Ofinalscore
+    Ofinalscore += 4
+    ninthframeO.pack(fill="both", expand= True)
+    eightframeO.pack_forget()
+
+def Oact8_goodoption():
+    global Ofinalscore
+    Ofinalscore += 3
+    ninthframeO.pack(fill="both", expand= True)
+    eightframeO.pack_forget()
+    
+
+def Oact8_badoption():
+    global Ofinalscore
+    Ofinalscore += 1
+    ninthframeO.pack(fill="both", expand= True)
+    eightframeO.pack_forget()
+
+    #Option buttons 
+Option1_button8 = ctk.CTkButton(optionbuttonO_frame8, text="Scream!", width= 45, command= Oact8_badoption)
+Option2_button8 = ctk.CTkButton(optionbuttonO_frame8, text="Immediately turn around and go the other direction.", width= 45, command= Oact8_betteroption)
+Option3_button8 = ctk.CTkButton(optionbuttonO_frame8, text="Ignore and hope that they go away.", width= 45, command= Oact8_goodoption)
+Option4_button8 = ctk.CTkButton(optionbuttonO_frame8, text="I don't find that joke funny. Please leave me alone.", width= 45, command= Oact8_bestoption)
+
+
+#Layout for eightframeO
+
+    #Image Ovisual layout
+Ovisual_label8.pack()
+Ovisual_frame8.pack(pady= '50')
+
+#Oproblem window layout
+Oproblem_label8.pack(padx='10')
+Oproblem_frame8.pack(pady='10')
+
+    #Options label layout
+Owhat_label8.pack(pady='10')
+    #Option Button layout
+Option1_button8.pack(padx='70',pady='15', fill='x',expand= True)
+Option2_button8.pack(padx='70',pady='15', fill='x',expand= True)
+Option3_button8.pack(padx='70',pady='15', fill='x',expand= True)
+Option4_button8.pack(padx='70',pady='15', fill='x',expand= True)
+optionbuttonO_frame8.pack(fill= 'x', expand= True)
+
+#ninthframeO--------------------------------------------------------------------------------------------------------------------
+
+#Image Ovisual frame
+Ovisual_frame9 = ctk.CTkFrame(ninthframeO)
+
+    #Image Ovisual
+Ovisual9 = ctk.CTkImage(dark_image=Image.open('img/S1_act9.jpg'),
+                      size=(450,300))
+Ovisual_label9 = ctk.CTkLabel(Ovisual_frame9, image= Ovisual9, text="")
+
+#Oproblem window frame
+Oproblem_frame9 = ctk.CTkFrame(ninthframeO)
+
+    #Oproblem window
+Oproblem_label9 = ctk.CTkLabel(Oproblem_frame9, anchor= "e", font= ('Arial',16),
+                          text= "As you were walking in the library, you saw a person \nstruggling to reach a book."
+                          )
+
+#Options buttons frame
+optionbuttonO_frame9 = ctk.CTkFrame(ninthframeO)
+
+    #Options buttons label
+Owhat_label9 = ctk.CTkLabel(optionbuttonO_frame9, text="What should you do?", font= ('Arial',20))
+
+#option buttons function
+
+
+def Oact9_bestoption():
+    global Ofinalscore
+    Ofinalscore += 5
+    tenthframeO.pack(fill="both", expand= True)
+    ninthframeO.pack_forget()
+
+def Oact9_betteroption():
+    global Ofinalscore
+    Ofinalscore += 4
+    tenthframeO.pack(fill="both", expand= True)
+    ninthframeO.pack_forget()
+
+def Oact9_goodoption():
+    global Ofinalscore
+    Ofinalscore += 3
+    tenthframeO.pack(fill="both", expand= True)
+    ninthframeO.pack_forget()
+    
+
+def Oact9_badoption():
+    global Ofinalscore
+    Ofinalscore += 1
+    tenthframeO.pack(fill="both", expand= True)
+    ninthframeO.pack_forget()
+
+    #Option buttons 
+Option1_button9 = ctk.CTkButton(optionbuttonO_frame9, text="Approach and offer them help.", width= 45, command= Oact9_bestoption)
+Option2_button9 = ctk.CTkButton(optionbuttonO_frame9, text="Ignore", width= 45, command= Oact9_betteroption)
+Option3_button9 = ctk.CTkButton(optionbuttonO_frame9, text="Approach without saying anything and help. Then leave.", width= 45, command= Oact9_goodoption)
+Option4_button9 = ctk.CTkButton(optionbuttonO_frame9, text="Go over and just look at the situation.", width= 45, command= Oact9_badoption)
+
+
+#Layout for tenth
+
+    #Image Ovisual layout
+Ovisual_label9.pack()
+Ovisual_frame9.pack(pady= '50')
+
+#Oproblem window layout
+Oproblem_label9.pack(padx='10')
+Oproblem_frame9.pack(pady='10')
+
+    #Options label layout
+Owhat_label9.pack(pady='10')
+    #Option Button layout
+Option1_button9.pack(padx='70',pady='15', fill='x',expand= True)
+Option2_button9.pack(padx='70',pady='15', fill='x',expand= True)
+Option3_button9.pack(padx='70',pady='15', fill='x',expand= True)
+Option4_button9.pack(padx='70',pady='15', fill='x',expand= True)
+optionbuttonO_frame9.pack(fill= 'x', expand= True)
+
+#tenthframeO--------------------------------------------------------------------------------------------------------------------
+
+#Image Ovisual frame
+Ovisual_frame10 = ctk.CTkFrame(tenthframeO)
+
+    #Image Ovisual
+Ovisual10 = ctk.CTkImage(dark_image=Image.open('img/S1_act10.jpg'),
+                      size=(450,300))
+Ovisual_label10 = ctk.CTkLabel(Ovisual_frame10, image= Ovisual10, text="")
+
+#Oproblem window frame
+Oproblem_frame10 = ctk.CTkFrame(tenthframeO)
+
+    #Oproblem window
+Oproblem_label10 = ctk.CTkLabel(Oproblem_frame10, anchor= "e", font= ('Arial',16),
+                          text= "You asked if you could join a group, but they declined."
+                          )
+
+#Options buttons frame
+optionbuttonO_frame10 = ctk.CTkFrame(tenthframeO)
+
+    #Options buttons label
+Owhat_label10 = ctk.CTkLabel(optionbuttonO_frame10, text="What should you say?", font= ('Arial',20))
+
+#option buttons function
+
+
+
+def Oact10_bestoption():
+    global Ofinalscore
+    Ofinalscore += 5
+    global Ofinalscore_param
+    Ofinalscore_param = int(Ofinalscore)
+    global user_id
+    user_id_param = int(user_id)
+    conversatile.execute("INSERT INTO scenario1_tbl (user_id, total_score) VALUES (%s, %s)", (user_id_param, Ofinalscore_param))
+    db.commit()
+    if Ofinalscore >= 35 :
+        passedframeO.pack(fill="both", expand= True)
+        tenthframeO.pack_forget()
+    
+    if Ofinalscore <= 34 :
+        failedframeO.pack(fill="both", expand= True)
+        tenthframeO.pack_forget()
+
+    #passed frame
+
+    #Image Ovisual frame
+    Ovisual_framep = ctk.CTkFrame(passedframeO)
+
+    #Image Ovisual
+    Ovisualp = ctk.CTkImage(dark_image=Image.open('img/You Passed!.jpg'),
+                      size=(450,300))
+    Ovisual_labelp = ctk.CTkLabel(Ovisual_framep, image= Ovisualp, text="")
+
+    Opass_label = ctk.CTkLabel(passedframeO, font= ('Arial',16),                      
+                        text="YOU PASSED! \n YOUR SCORE IS " + f"{Ofinalscore}")
+
+    #back to scenario menu
+    b2s_button = ctk.CTkButton(passedframeO, text="Back To Scenario Menu", width= 45, command= Oback_to_scenario_menu)
+
+    #layout for passed frame
+    Ovisual_labelp.pack()
+    Ovisual_framep.pack(pady= '50')
+
+    Opass_label.pack(fill="both", expand= True)
+
+    b2s_button.pack(padx='70',pady='35', fill='x',expand= True)
+
+    #failed frame
+
+    #Image Ovisual frame
+    Ovisual_framef = ctk.CTkFrame(failedframeO)
+
+    #Image Ovisual
+    Ovisualf = ctk.CTkImage(dark_image=Image.open('img/You Failed!.jpg'),
+                      size=(450,300))
+    Ovisual_labelf = ctk.CTkLabel(Ovisual_framef, image= Ovisualf, text="")
+
+    fail_label = ctk.CTkLabel(failedframeO, font= ('Arial',16),                      
+                        text="YOU FAILED! \n YOUR SCORE IS " + f"{Ofinalscore}")
+
+    #back to scenario menu
+    b2s_button2 = ctk.CTkButton(failedframeO, text="Back To Scenario Menu", width= 45, command= Oback_to_scenario_menu)
+
+    #layout for fail frame
+    Ovisual_labelf.pack()
+    Ovisual_framef.pack(pady='50')
+
+    fail_label.pack(fill="both", expand= True)
+
+    b2s_button2.pack(padx='70',pady='35', fill='x',expand= True)
+
+def Oact10_betteroption():
+    global Ofinalscore
+    Ofinalscore += 4
+    global Ofinalscore_param
+    Ofinalscore_param = int(Ofinalscore)
+    global user_id
+    user_id_param = int(user_id)
+    conversatile.execute("INSERT INTO scenario1_tbl (user_id, total_score) VALUES (%s, %s)", (user_id_param, Ofinalscore_param))
+    db.commit()
+    if Ofinalscore >= 35 :
+        passedframeO.pack(fill="both", expand= True)
+        tenthframeO.pack_forget()
+    
+    if Ofinalscore <= 34 :
+        failedframeO.pack(fill="both", expand= True)
+        tenthframeO.pack_forget()
+
+    #passed frame
+
+    #Image Ovisual frame
+    Ovisual_framep = ctk.CTkFrame(passedframeO)
+
+    #Image Ovisual
+    Ovisualp = ctk.CTkImage(dark_image=Image.open('img/You Passed!.jpg'),
+                      size=(450,300))
+    Ovisual_labelp = ctk.CTkLabel(Ovisual_framep, image= Ovisualp, text="")
+
+    pass_label = ctk.CTkLabel(passedframeO, font= ('Arial',16),                      
+                        text="YOU PASSED! \n YOUR SCORE IS " + f"{Ofinalscore}")
+
+    #back to scenario menu
+    b2s_button = ctk.CTkButton(passedframeO, text="Back To Scenario Menu", width= 45, command= Oback_to_scenario_menu)
+
+    #layout for passed frame
+    Ovisual_labelp.pack()
+    Ovisual_framep.pack(pady= '50')
+
+    pass_label.pack(fill="both", expand= True)
+
+    b2s_button.pack(padx='70',pady='35', fill='x',expand= True)
+
+    #failed frame
+
+    #Image Ovisual frame
+    Ovisual_framef = ctk.CTkFrame(failedframeO)
+
+    #Image Ovisual
+    Ovisualf = ctk.CTkImage(dark_image=Image.open('img/You Failed!.jpg'),
+                      size=(450,300))
+    Ovisual_labelf = ctk.CTkLabel(Ovisual_framef, image= Ovisualf, text="")
+
+    fail_label = ctk.CTkLabel(failedframeO, font= ('Arial',16),                      
+                        text="YOU FAILED! \n YOUR SCORE IS " + f"{Ofinalscore}")
+
+    #back to scenario menu
+    b2s_button2 = ctk.CTkButton(failedframeO, text="Back To Scenario Menu", width= 45, command= Oback_to_scenario_menu)
+
+    #layout for fail frame
+    Ovisual_labelf.pack()
+    Ovisual_framef.pack(pady='50')
+
+    fail_label.pack(fill="both", expand= True)
+
+    b2s_button2.pack(padx='70',pady='35', fill='x',expand= True)
+
+def Oact10_goodoption():
+    global Ofinalscore
+    Ofinalscore += 3
+    global Ofinalscore_param
+    Ofinalscore_param = int(Ofinalscore) 
+    global user_id
+    user_id_param = int(user_id)  
+    conversatile.execute("INSERT INTO scenario1_tbl (user_id, total_score) VALUES (%s, %s)", (user_id_param, Ofinalscore_param))
+    db.commit()
+    if Ofinalscore >= 35 :
+        passedframeO.pack(fill="both", expand= True)
+        tenthframeO.pack_forget()
+    
+    if Ofinalscore <= 34 :
+        failedframeO.pack(fill="both", expand= True)
+        tenthframeO.pack_forget()
+
+    #passed frame
+
+    #Image Ovisual frame
+    Ovisual_framep = ctk.CTkFrame(passedframeO)
+
+    #Image Ovisual
+    Ovisualp = ctk.CTkImage(dark_image=Image.open('img/You Passed!.jpg'),
+                      size=(450,300))
+    Ovisual_labelp = ctk.CTkLabel(Ovisual_framep, image= Ovisualp, text="")
+
+    pass_label = ctk.CTkLabel(passedframeO, font= ('Arial',16),                      
+                        text="YOU PASSED! \n YOUR SCORE IS " + f"{Ofinalscore}")
+
+    #back to scenario menu
+    b2s_button = ctk.CTkButton(passedframeO, text="Back To Scenario Menu", width= 45, command= Oback_to_scenario_menu)
+
+    #layout for passed frame
+    Ovisual_labelp.pack()
+    Ovisual_framep.pack(pady= '50')
+
+    pass_label.pack(fill="both", expand= True)
+
+    b2s_button.pack(padx='70',pady='35', fill='x',expand= True)
+
+    #failed frame
+
+    #Image Ovisual frame
+    Ovisual_framef = ctk.CTkFrame(failedframeO)
+
+    #Image Ovisual
+    Ovisualf = ctk.CTkImage(dark_image=Image.open('img/You Failed!.jpg'),
+                      size=(450,300))
+    Ovisual_labelf = ctk.CTkLabel(Ovisual_framef, image= Ovisualf, text="")
+
+    fail_label = ctk.CTkLabel(failedframeO, font= ('Arial',16),                      
+                        text="YOU FAILED! \n YOUR SCORE IS " + f"{Ofinalscore}")
+
+    #back to scenario menu
+    b2s_button2 = ctk.CTkButton(failedframeO, text="Back To Scenario Menu", width= 45, command= Oback_to_scenario_menu)
+
+    #layout for fail frame
+    Ovisual_labelf.pack()
+    Ovisual_framef.pack(pady='50')
+
+    fail_label.pack(fill="both", expand= True)
+
+    b2s_button2.pack(padx='70',pady='35', fill='x',expand= True)
+
+def Oact10_badoption():
+    global Ofinalscore
+    Ofinalscore += 1
+    global Ofinalscore_param
+    Ofinalscore_param = int(Ofinalscore)
+    global user_id
+    user_id_param = int(user_id)    
+    conversatile.execute("INSERT INTO scenario1_tbl (user_id, total_score) VALUES (%s, %s)", (user_id_param, Ofinalscore_param))
+    db.commit()
+    if Ofinalscore >= 35 :
+        passedframeO.pack(fill="both", expand= True)
+        tenthframeO.pack_forget()
+    
+    if Ofinalscore <= 34 :
+        failedframeO.pack(fill="both", expand= True)
+        tenthframeO.pack_forget()
+
+    #passed frame
+
+    #Image Ovisual frame
+    Ovisual_framep = ctk.CTkFrame(passedframeO)
+
+    #Image Ovisual
+    Ovisualp = ctk.CTkImage(dark_image=Image.open('img/You Passed!.jpg'),
+                      size=(450,300))
+    Ovisual_labelp = ctk.CTkLabel(Ovisual_framep, image= Ovisualp, text="")
+
+    pass_label = ctk.CTkLabel(passedframeO, font= ('Arial',16),                      
+                        text="YOU PASSED! \n YOUR SCORE IS " + f"{Ofinalscore}")
+
+    #back to scenario menu
+    b2s_button = ctk.CTkButton(passedframeO, text="Back To Scenario Menu", width= 45, command= Oback_to_scenario_menu)
+
+    #layout for passed frame
+    Ovisual_labelp.pack()
+    Ovisual_framep.pack(pady= '50')
+
+    pass_label.pack(fill="both", expand= True)
+
+    b2s_button.pack(padx='70',pady='35', fill='x',expand= True)
+
+    #failed frame
+
+    #Image Ovisual frame
+    Ovisual_framef = ctk.CTkFrame(failedframeO)
+
+    #Image Ovisual
+    Ovisualf = ctk.CTkImage(dark_image=Image.open('img/You Failed!.jpg'),
+                      size=(450,300))
+    Ovisual_labelf = ctk.CTkLabel(Ovisual_framef, image= Ovisualf, text="")
+
+    fail_label = ctk.CTkLabel(failedframeO, font= ('Arial',16),                      
+                        text="YOU FAILED! \n YOUR SCORE IS " + f"{Ofinalscore}")
+
+    #back to scenario menu
+    b2s_button2 = ctk.CTkButton(failedframeO, text="Back To Scenario Menu", width= 45, command= Oback_to_scenario_menu)
+
+    #layout for fail frame
+    Ovisual_labelf.pack()
+    Ovisual_framef.pack(pady='50')
+
+    fail_label.pack(fill="both", expand= True)
+
+    b2s_button2.pack(padx='70',pady='35', fill='x',expand= True)
+
+    #Option buttons 
+Option1_button10 = ctk.CTkButton(optionbuttonO_frame10, text="Okay, sorry for disturbing you.", width= 45, command= Oact10_bestoption)
+Option2_button10 = ctk.CTkButton(optionbuttonO_frame10, text="What do you mean no? I just wanted to share about…", width= 45, command= Oact10_goodoption)
+Option3_button10 = ctk.CTkButton(optionbuttonO_frame10, text="You know what?” then proceed to make fun of them.", width= 45, command= Oact10_badoption)
+Option4_button10 = ctk.CTkButton(optionbuttonO_frame10, text="Before I go, is there anything I did wrong?", width= 45, command= Oact10_betteroption)
+
+
+#Layout for tenthframeO
+
+    #Image Ovisual layout
+Ovisual_label10.pack()
+Ovisual_frame10.pack(pady= '50')
+
+#Oproblem window layout
+problem_label10.pack(padx='10')
+problem_frame10.pack(pady='10')
+
+    #Options label layout
+Owhat_label10.pack(pady='10')
+    #Option Button layout
+Option1_button10.pack(padx='70',pady='15', fill='x',expand= True)
+Option2_button10.pack(padx='70',pady='15', fill='x',expand= True)
+Option3_button10.pack(padx='70',pady='15', fill='x',expand= True)
+Option4_button10.pack(padx='70',pady='15', fill='x',expand= True)
+optionbuttonO_frame10.pack(fill= 'x', expand= True)
 
 #--------------------------------------------------------------------------------
 
